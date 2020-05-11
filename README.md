@@ -1,13 +1,12 @@
-React Native - Todo App
+  # React Native - Todo App
 
 Project, based on knowlages about React Native & Expo technologies.
 
 Used:
-
-React Hooks and ES6 syntax;
-For implementation React state used useContext/useReducer hooks;
-Firebase is using as database;
-Native JS Fetch method is using for server requests.
+  - React Hooks and ES6 syntax;
+  - For implementation React state used useContext/useReducer hooks;
+  - Firebase is using as database;
+  - Native JS Fetch method is using for server requests.
 
 You can:
   - save your notes on a remote server;
@@ -18,5 +17,5 @@ You can:
 For running this app: 
   - clone repo, 
   - npm install, 
-  - npm start. 
-You should now see the Todo app running on your iOS or Android simulator.
+  - npm start,
+  - you should now see the Todo app running on your iOS or Android simulator.
