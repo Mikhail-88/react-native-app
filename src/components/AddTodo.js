@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { StyleSheet, TextInput, Button, View, Alert } from 'react-native';
+import { StyleSheet, TextInput, View, Alert, Keyboard } from 'react-native';
+import { AntDesign } from '@expo/vector-icons';
 
 import { THEME } from '../theme';
 
@@ -10,6 +11,7 @@ export const AddTodo = ({ onSubmit }) => {
     if (value.trim().length) {
       onSubmit(value);
       setValue('');
+      Keyboard.dismiss();
     } else {
       Alert.alert('You can not add an empty field to the list.')
     }
@@ -25,10 +27,9 @@ export const AddTodo = ({ onSubmit }) => {
         autoCorrect={false}
         autoCapitalize='none'
       />
-      <Button 
-        title='Add'
-        onPress={pressHandler}
-      />
+      <AntDesign.Button onPress={pressHandler} name='pluscircleo'>
+        Add
+      </AntDesign.Button>
     </View>
   );
 };
@@ -41,7 +42,7 @@ const styles = StyleSheet.create({
     marginBottom: 15
   },
   input: {
-    width: '70%',
+    width: '60%',
     padding: 10,
     borderStyle: 'solid',
     borderBottomWidth: 2,

@@ -1,9 +1,11 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, TouchableOpacity } from 'react-native';
 
-export const TodoItem = ({ todo, removeTodo, onOpen }) => {
+import { AppTextBold } from './UI/AppTextBold';
+
+export const TodoItem = ({ todo, onRemoveTodo, onOpen }) => {
   const longPressHandler = () => {
-    removeTodo(todo.id);
+    onRemoveTodo(todo.id);
   };
 
   return (
@@ -13,7 +15,7 @@ export const TodoItem = ({ todo, removeTodo, onOpen }) => {
       onLongPress={longPressHandler}
     >
       <View style={styles.todo}>
-        <Text>{todo.title}</Text>
+        <AppTextBold style={styles.title}>{todo.title}</AppTextBold>
       </View>
     </TouchableOpacity>
   );
@@ -28,5 +30,8 @@ const styles = StyleSheet.create({
     borderColor: '#eee',
     borderRadius: 5,
     marginBottom: 10
+  },
+  title: {
+    fontSize: 21
   }
 });

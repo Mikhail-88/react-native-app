@@ -1,90 +1,37 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Alert } from 'react-native';
+import { Alert } from 'react-native';
+import * as Font from 'expo-font';
+import { AppLoading } from 'expo';
 
-import { Navbar } from './src/components/Navbar';
-import { MainScreen } from './src/Screens/MainScreen';
-import { TodoScreen } from './src/Screens/TodoScreen';
+import { MainLayout } from './src/MainLayout';
+import { TodoState } from './src/context/todo-context/TodoState';
+import { ScreenState } from './src/context/screen-context/ScreenState';
 
-const initialState = [
-  {id: '1', title: 'First task'},
-  {id: '2', title: 'Second task'},
-  {id: '3', title: 'Third task'}
-];
+async function loadApplication() {
+  await Font.loadAsync({
+    'roboto-regular': require('./assets/fonts/Roboto-Regular.ttf'),
+    'roboto-bold': require('./assets/fonts/Roboto-Bold.ttf')
+  });
+};
 
 export default function App() {
-  const [todoId, setTodoId] = useState(null)
-  const [todos, setTodos] = useState(initialState);
+  const [isReady, setIsReady] = useState(false);
 
-  const addTodo = title => {
-    setTodos(prevState => [
-      ...prevState, 
-      {
-        id: Date.now().toString(),
-        title
-      }
-    ]);
-  };
-
-  const removeTodo = id => {
-    const todo = todos.find(todo => todo.id === id);
-
-    Alert.alert(
-      'Remove Todo',
-      `Do you want to delete ${todo.title} task?`,
-      [
-        {
-          text: 'Cancel',
-          style: 'cancel'
-        },
-        { 
-          text: 'Delete', 
-          onPress: () => {
-            setTodoId(null);
-            setTodos(prevState => prevState.filter(item => item.id !== id));
-          }
-        }
-      ],
-      { cancelable: false }
+  if (!isReady) {
+    return (
+      <AppLoading
+        startAsync={loadApplication}
+        onError={() => Alert.alert('Something went wrong, try again later!')}
+        onFinish={() => setIsReady(true)}
+      />
     );
-  };
-
-  const saveEditTitle = (id, title) => {
-    setTodos(prevState => prevState.map(
-      todo => todo.id === id ? {...todo, title} : todo
-    ));
-  };
-
-  let content = <MainScreen
-                  todos={todos}
-                  addTodo={addTodo}
-                  removeTodo={removeTodo}
-                  openTodo={setTodoId}
-                />;
-
-  if (todoId) {
-    const selectedTodo = todos.find(todo => todo.id === todoId);
-    content = <TodoScreen
-                todo={selectedTodo}
-                saveEditTitle={saveEditTitle}
-                removeTodo={removeTodo}
-                goBack={() => setTodoId(null)}
-              />
   }
 
   return (
-    <View>
-      <Navbar title='Todo App' />
-
-      <View style={styles.container}>
-        {content}
-      </View>
-    </View>
+    <ScreenState>
+      <TodoState>
+        <MainLayout />
+      </TodoState>
+    </ScreenState>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    paddingHorizontal: 30,
-    paddingVertical: 20
-  }
-});
